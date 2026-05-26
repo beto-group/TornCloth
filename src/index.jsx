@@ -1,5 +1,5 @@
 const { useState, useEffect } = dc;
-const { App } = await dc.require(folderPath + "/src/App.jsx");
+const { App } = await dc.require(dc.resolvePath("TORN CLOTH/src/App.jsx"));
 
 // FullTab Stylesheet Injector for immersive full pane mode
 const immersiveCss = `
@@ -50,11 +50,9 @@ const RootView = (props) => {
   return <App key={stamp} {...props} />;
 };
 
-async function View({ folderPath, isInception, dc, ...props }) {
-  const AppModule = await App({ folderPath, isInception, dc, ...props });
-  
+async function View(props) {
   return function ViewComponent() {
-    return <RootView folderPath={folderPath} isInception={isInception} dc={dc} {...props} />;
+    return <RootView {...props} />;
   };
 }
 
