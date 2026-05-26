@@ -50,10 +50,4 @@ const RootView = (props) => {
   return <App key={stamp} {...props} />;
 };
 
-async function View(props) {
-  return function ViewComponent() {
-    return <RootView {...props} />;
-  };
-}
-
-return { View };
+return { View: RootView };
