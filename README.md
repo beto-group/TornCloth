@@ -41,18 +41,18 @@ The Torn Cloth component simulates the physical dynamics of a sheet of fabric bl
 
 The package exposes the following compiled files:
 
-| File | Description |
-| :--- | :--- |
-| **[TornCloth.md](TornCloth.md)** | The main entry point designed to be loaded inside Obsidian canvases or workspace leaves. |
-| **[src/index.jsx](src/index.jsx)** | Main bootstrapper/loader hook that mounts the full-tab immersive injector and handles view coordination. |
-| **[src/App.jsx](src/App.jsx)** | Main coordinator component that handles the FullTab lifecycle, dom reparenting, and parameter orchestration. |
-| **[src/components/ClothComponent.jsx](src/components/ClothComponent.jsx)** | The core interactive WebGL Three.js cloth simulation module. |
-| **[src/styles/styles.jsx](src/styles/styles.jsx)** | CSS-in-JS style definition map for canvas view wrappers and controllers. |
-| **[src/utils/domUtils.jsx](src/utils/domUtils.jsx)** | DOM traversal utilities to locate target workspace leaves. |
-| **[src/utils/loadScript.js](src/utils/loadScript.js)** | A local robust script loading utility fetching and caching dependencies for offline performance. |
-| **[METADATA.md](METADATA.md)** | Packaging manifest outlining indexing, target, and security configurations. |
-| **[CONTRIBUTION.md](CONTRIBUTION.md)** | Contributor architecture standards and local compilation guidelines. |
-| **[LICENSE.md](LICENSE.md)** | MIT open-source license. |
+| File                                                                       | Description                                                                                                  |
+| :------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
+| **[TornCloth.md](TornCloth.md)**                                           | The main entry point designed to be loaded inside Obsidian canvases or workspace leaves.                     |
+| **[src/index.jsx](src/index.jsx)**                                         | Main bootstrapper/loader hook that mounts the full-tab immersive injector and handles view coordination.     |
+| **[src/App.jsx](src/App.jsx)**                                             | Main coordinator component that handles the FullTab lifecycle, dom reparenting, and parameter orchestration. |
+| **[src/components/ClothComponent.jsx](src/components/ClothComponent.jsx)** | The core interactive WebGL Three.js cloth simulation module.                                                 |
+| **[src/styles/styles.jsx](src/styles/styles.jsx)**                         | CSS-in-JS style definition map for canvas view wrappers and controllers.                                     |
+| **[src/utils/domUtils.jsx](src/utils/domUtils.jsx)**                       | DOM traversal utilities to locate target workspace leaves.                                                   |
+| **[src/utils/loadScript.js](src/utils/loadScript.js)**                     | A local robust script loading utility fetching and caching dependencies for offline performance.             |
+| **[METADATA.md](METADATA.md)**                                             | Packaging manifest outlining indexing, target, and security configurations.                                  |
+| **[CONTRIBUTION.md](CONTRIBUTION.md)**                                     | Contributor architecture standards and local compilation guidelines.                                         |
+| **[LICENSE.md](LICENSE.md)**                                               | MIT open-source license.                                                                                     |
 
 ## Contributors
 

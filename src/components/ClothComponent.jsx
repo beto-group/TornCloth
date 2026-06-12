@@ -6,7 +6,7 @@
  * Distributed under the MIT License.
  */
 function ClothComponent(props) {
-    const { dc, loadScript, isFullTab, isInception, onToggleFullTab, styles, onCodeReloadRequest } = props;
+    const { dc, loadScript, isFullTab, isInception, onToggleFullTab, styles } = props;
     const { useState, useEffect, useRef } = dc;
 
     const canvasContainerRef = useRef(null);
@@ -47,9 +47,9 @@ function ClothComponent(props) {
         async function initThree() {
             try {
                 // 1. Inject Import Map for THREE so ESM URL imports work
-                let importMap = document.getElementById('three-import-map-cloth');
+                let importMap = activeDocument.getElementById('three-import-map-cloth');
                 if (!importMap) {
-                    importMap = document.createElement('script');
+                    importMap = activeDocument.createElement('script');
                     importMap.id = 'three-import-map-cloth';
                     importMap.type = 'importmap';
                     importMap.textContent = JSON.stringify({
@@ -59,11 +59,11 @@ function ClothComponent(props) {
                             "lil-gui": "https://unpkg.com/lil-gui@0.19.1/dist/lil-gui.esm.min.js"
                         }
                     });
-                    document.head.appendChild(importMap);
+                    activeDocument.head.appendChild(importMap);
                 }
 
                 // Wait a small tick for import map to register properly in the DOM
-                await new Promise(r => setTimeout(r, 50));
+                await new Promise(r => window.setTimeout(r, 50));
 
                 // 2. Load dependencies via LoadScript
                 const THREE = await loadScript(dc, 'https://unpkg.com/three@0.160.0/build/three.module.js', { type: 'module' });
@@ -238,7 +238,7 @@ function ClothComponent(props) {
                 const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
 
                 // Placeholder texture
-                const cvs = document.createElement('canvas'); cvs.width = 2; cvs.height = 2;
+                const cvs = activeDocument.createElement('canvas'); cvs.width = 2; cvs.height = 2;
                 const ctx = cvs.getContext('2d'); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 2, 2);
                 const placeholderTex = new THREE.CanvasTexture(cvs);
 
@@ -361,7 +361,7 @@ function ClothComponent(props) {
 
                 // Render loop
                 const animate = () => {
-                    refs.animationId = requestAnimationFrame(animate);
+                    refs.animationId = window.requestAnimationFrame(animate);
 
                     const time = refs.clock.getElapsedTime();
                     refs.material.uniforms.uTime.value = time;
@@ -388,7 +388,7 @@ function ClothComponent(props) {
 
         return () => {
             active = false;
-            if (refs.animationId) cancelAnimationFrame(refs.animationId);
+            if (refs.animationId) window.cancelAnimationFrame(refs.animationId);
             if (refs.gui) refs.gui.destroy();
             if (refs.renderer) refs.renderer.dispose();
             if (refs.material) refs.material.dispose();
@@ -418,7 +418,7 @@ function ClothComponent(props) {
         const objectUrl = URL.createObjectURL(file);
 
         if (file.type.startsWith('video')) {
-            const video = document.createElement('video');
+            const video = activeDocument.createElement('video');
             video.src = objectUrl;
             video.loop = true;
             video.muted = true;

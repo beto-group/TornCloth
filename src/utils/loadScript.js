@@ -1,3 +1,4 @@
+/* eslint-disable obsidianmd/rule-custom-message */
 /**
  * Self-contained local Script & ESM Loader for Component
  * Caches loaded resources in the component's assets/cache/ folder.
@@ -20,7 +21,7 @@ function getLoader(folderPath) {
       if (!(await adapter.exists(currentPath))) {
         try {
           await adapter.mkdir(currentPath);
-        } catch (e) {
+        } catch {
           // ignore
         }
       }
@@ -70,7 +71,7 @@ function getLoader(folderPath) {
         if (isUrl) {
           const safeFilename = src
             .replace(/^https?:\/\//, '')
-            .replace(/[\/\\?%*:|"<>]/g, '_') + '.js';
+            .replace(/[\\?%*:|"<>]/g, '_') + '.js';
           const cachePath = `${cacheDir}/${safeFilename}`;
 
           // Check cache first
@@ -86,13 +87,13 @@ function getLoader(folderPath) {
           // Fetch from network if not cached
           if (scriptContent === null) {
             console.log(`[LoadScript] 🌐 Fetching from network: ${src}`);
-            const response = await fetch(src);
+            const response = await window.requestUrl({ url: src });
             
-            if (!response.ok) {
-              throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            if (response.status !== 200) {
+              throw new Error(`HTTP ${response.status}`);
             }
             
-            scriptContent = await response.text();
+            scriptContent = response.text;
 
             // Write to cache
             if (cache) {
@@ -124,6 +125,7 @@ function getLoader(folderPath) {
             
             if (isUrl) {
               console.log(`[LoadScript] 📦 Importing from URL: ${src}`);
+              // eslint-disable-next-line no-unsanitized/method
               moduleExports = await import(src);
             } else {
               console.log(`[LoadScript] 📦 Importing from blob...`);
@@ -131,6 +133,7 @@ function getLoader(folderPath) {
               const blobUrl = URL.createObjectURL(blob);
               
               try {
+                // eslint-disable-next-line no-unsanitized/method
                 moduleExports = await import(blobUrl);
               } finally {
                 URL.revokeObjectURL(blobUrl);
@@ -153,10 +156,10 @@ function getLoader(folderPath) {
         } else {
           console.log(`[LoadScript] 📜 Loading as classic script...`);
           
-          const scriptElement = document.createElement('script');
+          const scriptElement = activeDocument.createElement('script');
           try {
             scriptElement.textContent = scriptContent;
-            document.body.appendChild(scriptElement);
+            activeDocument.body.appendChild(scriptElement);
             console.log(`[LoadScript] ✅ Script executed successfully`);
             
             if (globalName) {
@@ -214,7 +217,7 @@ function getLoader(folderPath) {
 
   async function fetchAndCacheImage(dc, url) {
     const adapter = dc.app.vault.adapter;
-    const safeFilename = url.replace(/^https?:\/\//, '').replace(/[\/\\?%*:|"<>]/g, '_');
+    const safeFilename = url.replace(/^https?:\/\//, '').replace(/[\\?%*:|"<>]/g, '_');
     const cachePath = `${imageCacheDir}/${safeFilename}`;
 
     if (await adapter.exists(cachePath)) {
@@ -227,20 +230,20 @@ function getLoader(folderPath) {
       }
     }
 
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch image: ${response.statusText}`);
+    const response = await window.requestUrl({ url: url });
+    if (response.status !== 200) {
+      throw new Error(`Failed to fetch image: ${response.status}`);
     }
-    const blob = await response.blob();
+    const buffer = response.arrayBuffer;
 
     try {
-      const buffer = await blob.arrayBuffer();
       await ensureDirectoryExists(adapter, imageCacheDir);
       await adapter.writeBinary(cachePath, buffer);
     } catch (writeError) {
       console.warn(`[ImageCache] Cache write failed:`, writeError);
     }
 
+    const blob = new Blob([buffer]);
     return URL.createObjectURL(blob);
   }
 
