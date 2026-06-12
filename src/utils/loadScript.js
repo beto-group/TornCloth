@@ -71,7 +71,7 @@ function getLoader(folderPath) {
         if (isUrl) {
           const safeFilename = src
             .replace(/^https?:\/\//, '')
-            .replace(/[\\?%*:|"<>]/g, '_') + '.js';
+            .replace(/[/\\?%*:|"<>]/g, '_') + '.js';
           const cachePath = `${cacheDir}/${safeFilename}`;
 
           // Check cache first
@@ -217,7 +217,7 @@ function getLoader(folderPath) {
 
   async function fetchAndCacheImage(dc, url) {
     const adapter = dc.app.vault.adapter;
-    const safeFilename = url.replace(/^https?:\/\//, '').replace(/[\\?%*:|"<>]/g, '_');
+    const safeFilename = url.replace(/^https?:\/\//, '').replace(/[/\\?%*:|"<>]/g, '_');
     const cachePath = `${imageCacheDir}/${safeFilename}`;
 
     if (await adapter.exists(cachePath)) {

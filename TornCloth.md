@@ -1,7 +1,7 @@
 ---
 layout: full
 ---
-
+	
 ```datacorejsx
 const activeFile = dc.resolvePath("TornCloth");
 const folderPath = activeFile 
