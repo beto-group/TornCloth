@@ -1,11 +1,15 @@
 const { useState, useEffect, useRef } = dc;
 
-const { findNearestAncestorWithClass, findDirectChildByClass } = await dc.require(dc.resolvePath("TORN CLOTH/src/utils/domUtils.jsx"));
-const { STYLES } = await dc.require(dc.resolvePath("TORN CLOTH/src/styles/styles.jsx"));
-const { ClothComponent } = await dc.require(dc.resolvePath("TORN CLOTH/src/components/ClothComponent.jsx"));
-const { getLoader } = await dc.require(dc.resolvePath("TORN CLOTH/src/utils/loadScript.js"));
+const activeFile = dc.resolvePath("TornCloth");
+const folderPath = activeFile 
+    ? activeFile.substring(0, activeFile.lastIndexOf('/')) 
+    : "_RESOURCES/DATACORE/_DONE/TornCloth";
 
-const folderPath = dc.resolvePath("TORN CLOTH");
+const { findNearestAncestorWithClass, findDirectChildByClass } = await dc.require(folderPath + "/src/utils/domUtils.jsx");
+const { STYLES } = await dc.require(folderPath + "/src/styles/styles.jsx");
+const { ClothComponent } = await dc.require(folderPath + "/src/components/ClothComponent.jsx");
+const { getLoader } = await dc.require(folderPath + "/src/utils/loadScript.js");
+
 const { loadScript } = getLoader(folderPath);
 
 const App = (props) => {
@@ -46,9 +50,9 @@ const App = (props) => {
 
         // Create placeholder
         stateRefs.originalParent = currentParent;
-        const placeholder = document.createElement("div");
+        const placeholder = activeDocument.createElement("div");
         placeholder.className = "screen-mode-placeholder";
-        placeholder.style.display = "none";
+        Object.assign(placeholder.style, { display: "none" });
 
         if (container.nextSibling) {
             currentParent.insertBefore(placeholder, container.nextSibling);
@@ -64,13 +68,13 @@ const App = (props) => {
         };
 
         if (window.getComputedStyle(contentWrapper).position === 'static') {
-            contentWrapper.style.position = "relative";
+            Object.assign(contentWrapper.style, { position: "relative" });
         }
 
         contentWrapper.appendChild(container);
 
         // Edge-to-edge styling
-        requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
             Object.assign(contentWrapper.style, {
                 padding: "0",
                 margin: "0",
@@ -90,11 +94,10 @@ const App = (props) => {
             height: "100%",
             zIndex: "9998",
             overflow: "hidden",
-            backgroundColor: "#1a1a1a",
+            backgroundColor: "var(--background-primary)",
         });
 
         return () => {
-            console.log("Datacore: Cleaning up Full Tab Mode (TornCloth)");
             if (stateRefs.placeholder?.parentNode) {
                 stateRefs.placeholder.parentNode.replaceChild(container, stateRefs.placeholder);
             } else if (stateRefs.originalParent) {
@@ -103,7 +106,7 @@ const App = (props) => {
 
             if (stateRefs.parentPositionInfo?.element) {
                 const { element, originalInlinePosition } = stateRefs.parentPositionInfo;
-                element.style.position = originalInlinePosition || '';
+                Object.assign(element.style, { position: originalInlinePosition || '' });
             }
             container.removeAttribute("style");
         };
@@ -113,17 +116,17 @@ const App = (props) => {
     useEffect(() => {
         if (!isFullTab || isInception) return;
 
-        const statusBar = document.querySelector('body > .app-container .status-bar');
+        const statusBar = activeDocument.querySelector('body > .app-container .status-bar');
         let originalDisplay = '';
 
         if (statusBar) {
             originalDisplay = statusBar.style.display;
-            statusBar.style.display = 'none';
+            Object.assign(statusBar.style, { display: 'none' });
         }
 
         return () => {
             if (statusBar) {
-                statusBar.style.display = originalDisplay;
+                Object.assign(statusBar.style, { display: originalDisplay });
             }
         };
     }, [isFullTab, isInception]);
@@ -132,7 +135,7 @@ const App = (props) => {
     const effectiveFullTab = isFullTab && !isInception;
 
     return (
-        <div ref={containerRef} style={{ width: '100%', height: effectiveFullTab ? '100%' : '600px', backgroundColor: '#1a1a1a', borderRadius: effectiveFullTab ? '0' : '8px', overflow: 'hidden' }}>
+        <div ref={containerRef} style={{ width: '100%', height: effectiveFullTab ? '100%' : '600px', backgroundColor: 'var(--background-primary)', borderRadius: effectiveFullTab ? '0' : '8px', overflow: 'hidden' }}>
             <ClothComponent
                 dc={dc}
                 loadScript={loadScript}

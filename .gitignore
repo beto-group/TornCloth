@@ -1,2 +1,6 @@
-assets/cache/
 .DS_Store
+assets/cache/
+
+# Prevent blocking standard asset folders
+!assets/image/
+!assets/videos/

@@ -3,7 +3,7 @@
   <a name="readme-top"></a>
   <img src="https://raw.githubusercontent.com/beto-group/beto.assets/main/BETO.logo.animated.svg?raw=true" alt="LOGO" width="160">
   <h1 align="center">TORN CLOTH</h1>
-  <h3 align="center"> Iɴᴛᴇʀᴀᴄᴛɪᴠᴇ WebGL Tᴏʀɴ Cʟᴏᴛʜ Pʜʏsɪᴄs Sɪᴍᴜʟᴀᴛᴏʀ </h3>
+  <h3 align="center"> IɴᴛGV Tᴏʀɴ Cʟᴏᴛʜ Pʜʏsɪᴄs Sɪᴍᴜʟᴀᴛᴏʀ </h3>
 </div>
 
 <div align="center">
@@ -19,17 +19,23 @@
   <hr>
 </div>
 
-<img src="assets/torncloth.clip.gif" alt="Torn Cloth Walkthrough" width="100%">
+<img src="assets/videos/preview.gif" alt="Torn Cloth Walkthrough" width="100%">
 
 <p align="center"><i>An interactive WebGL torn cloth physics simulator using Three.js and custom fragment shaders, featuring a real-time parameter controls panel and local offline resource caching.</i></p>
 
 The Torn Cloth component simulates the physical dynamics of a sheet of fabric blowing in the wind, complete with interactive features that allow users to load custom media (photos/videos) or drop files directly onto the cloth. It supports real-time tuning of physical parameters (wind force, fabric details) and visual adjustments (grunge FX, vignette, shadow opacity, and torn edge parameters).
 
+## Quick Start
+
+1. **Download the Repository**: Clone or download this repository into your Obsidian vault directory.
+2. **Install Datacore**: Ensure the Datacore plugin is active in your vault.
+3. **Open the Entry Note**: Open the [TornCloth.md](TornCloth.md) file inside Obsidian.
+
 ## Features
 
-- **🛡️ Runtime & Agentic Safety**: Robust CDN asset integration utilizing local caching mechanisms via custom loadScript routines, accompanied by an active filesystem polling watch daemon in `src/index.jsx` to coordinate graceful reloading.
-- **🔐 Security & Integrations**: Designed to run inside standard Obsidian workspace leaves, utilizing anti-bleed styling constraints and local stylesheet injects to safely manage the edge-to-edge view without leaking styles.
-- **📐 User Interface & Developer Loop**: Features a slide-out parameter control GUI (`lil-gui`) allowing real-time tuning of noise scale, octaves, vignette fades, and speeds, alongside integrated FullTab toggle modes and hot reloading bindings.
+- **Runtime & Agentic Safety**: Robust CDN asset integration utilizing local caching mechanisms via custom loadScript routines, accompanied by an active filesystem polling watch daemon in `src/index.jsx` to coordinate graceful reloading.
+- **Security & Integrations**: Designed to run inside standard Obsidian workspace leaves, utilizing anti-bleed styling constraints and local stylesheet injects to safely manage the edge-to-edge view without leaking styles.
+- **User Interface & Developer Loop**: Features a slide-out parameter control GUI (`lil-gui`) allowing real-time tuning of noise scale, octaves, vignette fades, and speeds, alongside integrated FullTab toggle modes and hot reloading bindings.
 
 ## Directory Index & Components
 
@@ -37,7 +43,7 @@ The package exposes the following compiled files:
 
 | File | Description |
 | :--- | :--- |
-| **[TORN CLOTH.md](TORN%20CLOTH.md)** | The main entry point designed to be loaded inside Obsidian canvases or workspace leaves. |
+| **[TornCloth.md](TornCloth.md)** | The main entry point designed to be loaded inside Obsidian canvases or workspace leaves. |
 | **[src/index.jsx](src/index.jsx)** | Main bootstrapper/loader hook that mounts the full-tab immersive injector and handles view coordination. |
 | **[src/App.jsx](src/App.jsx)** | Main coordinator component that handles the FullTab lifecycle, dom reparenting, and parameter orchestration. |
 | **[src/components/ClothComponent.jsx](src/components/ClothComponent.jsx)** | The core interactive WebGL Three.js cloth simulation module. |
@@ -49,4 +55,7 @@ The package exposes the following compiled files:
 | **[LICENSE.md](LICENSE.md)** | MIT open-source license. |
 
 ## Contributors
+
 - beto.group
+
+[ 🛠️ Compliance: Obsidian-ESLint-Compliant ]
